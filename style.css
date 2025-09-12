@@ -1288,7 +1288,44 @@ body {
         left: 10px;
         right: 10px;
         border-radius: 15px;
-        padding: 0.8rem 1rem;
+        padding: 1rem 1.2rem;
+        min-height: 60px;
+    }
+
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex: 1;
+    }
+
+    .logo-img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .logo-text {
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
+
+    .theme-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        margin-right: 0.8rem;
     }
 
     .nav-menu {
@@ -1360,28 +1397,40 @@ body {
     .hero-container {
         flex-direction: column;
         text-align: center;
-        gap: 1.5rem;
-        padding: 1rem;
-        min-height: calc(100vh - 80px);
+        gap: 2rem;
+        padding: 2rem 1rem 1rem;
+        min-height: calc(100vh - 100px);
         justify-content: center;
+        margin-top: 80px;
+    }
+
+    .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .hero-text {
+        order: 2;
     }
 
     .hero-visual {
-        order: -1;
-        width: 160px;
-        height: 160px;
+        order: 1;
+        width: 200px;
+        height: 200px;
         margin: 0 auto;
     }
 
     .hero-visual img {
-        width: 120px;
-        height: 120px;
+        width: 160px;
+        height: 160px;
     }
 
     .hero-title {
-        font-size: 1.8rem;
-        line-height: 1.4;
-        margin-bottom: 1rem;
+        font-size: 1.6rem;
+        line-height: 1.3;
+        margin-bottom: 0.5rem;
     }
 
     .about {
@@ -1522,26 +1571,43 @@ body {
 /* Small Mobile Phones (320px - 480px) */
 @media (max-width: 480px) {
     .header {
-        padding: 0.6rem 0.8rem;
+        padding: 0.8rem 1rem;
+        min-height: 55px;
+    }
+
+    .logo-img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .logo-text {
+        font-size: 1.1rem;
+    }
+
+    .theme-toggle {
+        width: 35px;
+        height: 35px;
+        margin-right: 0.6rem;
     }
 
     .hero-container {
-        padding: 0.5rem;
-        gap: 1rem;
+        padding: 1.5rem 0.8rem 1rem;
+        gap: 1.5rem;
+        margin-top: 70px;
     }
 
     .hero-visual {
-        width: 140px;
-        height: 140px;
+        width: 160px;
+        height: 160px;
     }
 
     .hero-visual img {
-        width: 100px;
-        height: 100px;
+        width: 120px;
+        height: 120px;
     }
 
     .hero-title {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         line-height: 1.3;
     }
 
@@ -1590,30 +1656,47 @@ body {
 /* Extra Small Mobile Phones (280px - 320px) */
 @media (max-width: 320px) {
     .header {
-        padding: 0.5rem;
+        padding: 0.6rem 0.8rem;
         top: 5px;
         left: 5px;
         right: 5px;
+        min-height: 50px;
+    }
+
+    .logo-img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .logo-text {
+        font-size: 1rem;
+    }
+
+    .theme-toggle {
+        width: 30px;
+        height: 30px;
+        margin-right: 0.5rem;
     }
 
     .hero-container {
-        padding: 0.3rem;
-        gap: 0.8rem;
-        min-height: calc(100vh - 60px);
+        padding: 1rem 0.5rem 0.5rem;
+        gap: 1rem;
+        min-height: calc(100vh - 80px);
+        margin-top: 60px;
     }
 
     .hero-visual {
-        width: 120px;
-        height: 120px;
+        width: 140px;
+        height: 140px;
     }
 
     .hero-visual img {
-        width: 80px;
-        height: 80px;
+        width: 100px;
+        height: 100px;
     }
 
     .hero-title {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         line-height: 1.2;
     }
 
