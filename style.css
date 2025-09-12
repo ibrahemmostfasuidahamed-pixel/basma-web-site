@@ -1449,22 +1449,22 @@ body {
     }
 
     .hero-text {
-        order: 2;
+        order: 1;
         text-align: center;
         margin-top: 0;
     }
 
     .hero-visual {
-        order: 1;
-        width: 280px;
-        height: 280px;
+        order: 2;
+        width: 220px;
+        height: 220px;
         margin: 0 auto;
         flex-shrink: 0;
     }
 
     .hero-visual img {
-        width: 240px;
-        height: 240px;
+        width: 180px;
+        height: 180px;
     }
 
     .hero-title {
@@ -1713,13 +1713,13 @@ body {
     }
 
     .hero-text {
-        order: 2;
-        margin-top: 2rem;
+        order: 1;
+        margin-top: 0;
         text-align: center;
     }
 
     .hero-visual {
-        order: 1;
+        order: 2;
         width: 160px;
         height: 160px;
         margin: 0 auto;
