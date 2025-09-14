@@ -1,4 +1,4 @@
-// Mobile Navigation Toggle
+// Enhanced Mobile Navigation with Accessibility and Gestures
 document.addEventListener('DOMContentLoaded', function() {
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
@@ -6,21 +6,60 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebarClose = document.getElementById('sidebarClose');
     const sidebarOverlay = document.getElementById('sidebarOverlay');
     const sidebarThemeToggle = document.getElementById('sidebarThemeToggle');
-
-    // Open sidebar
-    navToggle.addEventListener('click', () => {
+    
+    // Focus management
+    let lastFocusedElement = null;
+    const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    
+    // Touch gesture variables
+    let touchStartX = 0;
+    let touchCurrentX = 0;
+    let isDragging = false;
+    let dragThreshold = 50;
+    
+    // Set ARIA attributes
+    navToggle.setAttribute('aria-controls', 'mobileSidebar');
+    navToggle.setAttribute('aria-expanded', 'false');
+    mobileSidebar.setAttribute('role', 'dialog');
+    mobileSidebar.setAttribute('aria-modal', 'true');
+    mobileSidebar.setAttribute('aria-labelledby', 'sidebar-title');
+    
+    // Open sidebar with enhanced functionality
+    function openSidebar() {
+        lastFocusedElement = document.activeElement;
+        
         mobileSidebar.classList.add('active');
         sidebarOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    });
-
-    // Close sidebar
+        document.body.classList.add('no-scroll');
+        
+        navToggle.setAttribute('aria-expanded', 'true');
+        
+        // Focus first interactive element
+        setTimeout(() => {
+            const firstFocusable = mobileSidebar.querySelector(focusableElements);
+            if (firstFocusable) {
+                firstFocusable.focus();
+            }
+        }, 100);
+    }
+    
+    // Close sidebar with enhanced functionality
     function closeSidebar() {
         mobileSidebar.classList.remove('active');
         sidebarOverlay.classList.remove('active');
-        document.body.style.overflow = '';
+        document.body.classList.remove('no-scroll');
+        
+        navToggle.setAttribute('aria-expanded', 'false');
+        
+        // Return focus to trigger element
+        if (lastFocusedElement) {
+            lastFocusedElement.focus();
+            lastFocusedElement = null;
+        }
     }
-
+    
+    // Event listeners
+    navToggle.addEventListener('click', openSidebar);
     sidebarClose.addEventListener('click', closeSidebar);
     sidebarOverlay.addEventListener('click', closeSidebar);
 
@@ -30,6 +69,75 @@ document.addEventListener('DOMContentLoaded', function() {
             closeSidebar();
         });
     });
+    
+    // ESC key support
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileSidebar.classList.contains('active')) {
+            closeSidebar();
+        }
+    });
+    
+    // Focus trap
+    mobileSidebar.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+            const focusableElementsInSidebar = mobileSidebar.querySelectorAll(focusableElements);
+            const firstFocusable = focusableElementsInSidebar[0];
+            const lastFocusable = focusableElementsInSidebar[focusableElementsInSidebar.length - 1];
+            
+            if (e.shiftKey) {
+                if (document.activeElement === firstFocusable) {
+                    e.preventDefault();
+                    lastFocusable.focus();
+                }
+            } else {
+                if (document.activeElement === lastFocusable) {
+                    e.preventDefault();
+                    firstFocusable.focus();
+                }
+            }
+        }
+    });
+    
+    // Touch gesture support for swipe-to-close
+    mobileSidebar.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        isDragging = false;
+    }, { passive: true });
+    
+    mobileSidebar.addEventListener('touchmove', (e) => {
+        if (!isDragging) {
+            touchCurrentX = e.touches[0].clientX;
+            const deltaX = touchCurrentX - touchStartX;
+            
+            // Only allow right swipe (closing gesture)
+            if (deltaX > 10) {
+                isDragging = true;
+                mobileSidebar.style.transform = `translateX(${Math.max(0, deltaX)}px)`;
+            }
+        } else {
+            touchCurrentX = e.touches[0].clientX;
+            const deltaX = touchCurrentX - touchStartX;
+            mobileSidebar.style.transform = `translateX(${Math.max(0, deltaX)}px)`;
+        }
+    }, { passive: true });
+    
+    mobileSidebar.addEventListener('touchend', (e) => {
+        if (isDragging) {
+            const deltaX = touchCurrentX - touchStartX;
+            const sidebarWidth = mobileSidebar.offsetWidth;
+            
+            if (deltaX > sidebarWidth * 0.3) {
+                // Close sidebar
+                closeSidebar();
+            } else {
+                // Snap back
+                mobileSidebar.style.transform = '';
+            }
+            
+            isDragging = false;
+            mobileSidebar.style.transform = '';
+        }
+    }, { passive: true });
 
     // Sidebar theme toggle
     sidebarThemeToggle.addEventListener('click', () => {
@@ -54,39 +162,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Legacy mobile menu support (keeping for compatibility)
-    if (navMenu) {
-        navToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            navToggle.classList.toggle('active');
-        });
+    // Performance optimization
+    mobileSidebar.addEventListener('transitionstart', () => {
+        mobileSidebar.style.willChange = 'transform';
+    });
+    
+    mobileSidebar.addEventListener('transitionend', () => {
+        mobileSidebar.style.willChange = 'auto';
+    });
 
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
-            });
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
-            }
-        });
-    }
-
-    // Add scroll event listener for header transparency
-    window.addEventListener('scroll', () => {
+    // Add scroll event listener for header transparency (throttled)
+    let ticking = false;
+    function updateHeader() {
         const header = document.querySelector('.header');
         if (window.scrollY > 50) {
             header.style.background = 'rgba(255, 255, 255, 0.25)';
         } else {
             header.style.background = 'rgba(255, 255, 255, 0.15)';
         }
-    });
+        ticking = false;
+    }
+    
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(updateHeader);
+            ticking = true;
+        }
+    }, { passive: true });
 
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
