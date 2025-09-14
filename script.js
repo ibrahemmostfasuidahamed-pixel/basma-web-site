@@ -204,8 +204,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add dynamic particles
-    createParticles();
+    // Add dynamic particles only on desktop
+    if (window.innerWidth >= 768) {
+        createParticles();
+    }
 });
 
 // Theme Toggle Functionality
