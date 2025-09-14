@@ -2,23 +2,74 @@
 document.addEventListener('DOMContentLoaded', function() {
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
-    
-    if (navToggle && navMenu) {
+    const mobileSidebar = document.getElementById('mobileSidebar');
+    const sidebarClose = document.getElementById('sidebarClose');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const sidebarThemeToggle = document.getElementById('sidebarThemeToggle');
+
+    // Open sidebar
+    navToggle.addEventListener('click', () => {
+        mobileSidebar.classList.add('active');
+        sidebarOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Close sidebar
+    function closeSidebar() {
+        mobileSidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    sidebarClose.addEventListener('click', closeSidebar);
+    sidebarOverlay.addEventListener('click', closeSidebar);
+
+    // Close sidebar when clicking on a link
+    document.querySelectorAll('.sidebar-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            closeSidebar();
+        });
+    });
+
+    // Sidebar theme toggle
+    sidebarThemeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        const isDark = document.body.classList.contains('dark-theme');
+        
+        // Update both theme toggles
+        const themeIcon = document.querySelector('.theme-icon');
+        const sidebarThemeIcon = document.querySelector('.sidebar-theme-icon');
+        const sidebarThemeText = document.querySelector('.sidebar-theme-text');
+        
+        if (isDark) {
+            themeIcon.textContent = '☀️';
+            sidebarThemeIcon.textContent = '☀️';
+            sidebarThemeText.textContent = 'الوضع المضيء';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            themeIcon.textContent = '🌙';
+            sidebarThemeIcon.textContent = '🌙';
+            sidebarThemeText.textContent = 'الوضع المظلم';
+            localStorage.setItem('theme', 'light');
+        }
+    });
+
+    // Legacy mobile menu support (keeping for compatibility)
+    if (navMenu) {
         navToggle.addEventListener('click', () => {
             navMenu.classList.toggle('active');
             navToggle.classList.toggle('active');
         });
 
-        // Close menu when clicking on a link
-        const navLinks = navMenu.querySelectorAll('a');
-        navLinks.forEach(link => {
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
                 navToggle.classList.remove('active');
             });
         });
 
-        // Close menu when clicking outside
+        // Close mobile menu when clicking outside
         document.addEventListener('click', (e) => {
             if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
                 navMenu.classList.remove('active');
