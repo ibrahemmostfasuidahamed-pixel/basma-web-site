@@ -7,6 +7,7 @@
 
 html {
     scroll-behavior: smooth;
+    font-size: 16px; /* Base font size for rem calculations */
 }
 
 body {
@@ -14,20 +15,22 @@ body {
     line-height: 1.6;
     color: #ffffff;
     overflow-x: hidden;
+    min-height: 100vh;
+    width: 100%;
 }
 
 /* Header - MacOS Style Transparent */
 .header {
     position: fixed;
-    top: 20px;
-    left: 20px;
-    right: 20px;
+    top: 10px;
+    left: 10px;
+    right: 10px;
     z-index: 1000;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     background: rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
+    border-radius: 15px;
     transition: all 0.3s ease;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     animation: headerFloat 1s ease-out;
@@ -37,11 +40,12 @@ body {
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 80px;
+    height: 60px;
+    min-height: 60px;
 }
 
 .nav-logo {
@@ -52,9 +56,10 @@ body {
 }
 
 .nav-logo .logo-img {
-    height: 100px;
-    width: auto;
-    filter: brightness(0) invert(1);
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
     transition: all 0.3s ease;
     animation: logoRotate 2s ease-in-out infinite alternate;
 }
@@ -65,7 +70,7 @@ body {
 }
 
 .logo-text {
-    font-size: 2.2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: #ffffff;
     background: linear-gradient(135deg, #ffffff 0%, #4facfe 50%, #00f2fe 100%);
@@ -2219,33 +2224,336 @@ body {
     color: #4facfe;
 }
 
-@media (max-width: 767px) {
+/* ===== COMPREHENSIVE RESPONSIVE DESIGN ===== */
+
+/* Extra Small Devices (320px and up) */
+@media (max-width: 374px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .header {
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    border-radius: 10px;
+  }
+  
+  .nav-container {
+    height: 50px;
+    min-height: 50px;
+    padding: 0 0.5rem;
+  }
+  
+  .nav-logo .logo-img {
+    height: 30px;
+    width: 30px;
+  }
+  
+  .logo-text {
+    font-size: 1.1rem;
+  }
+  
+  .nav-toggle {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .hero-container {
+    padding: 0 1rem;
+    min-height: calc(100vh - 50px);
+    margin-top: 50px;
+  }
+  
   .hero-visual {
-    transform: none !important; /* يشيل التزحزح شمال */
+    transform: none !important;
     justify-content: center !important;
     align-items: center !important;
-    margin: 0 auto;
+    margin: 0 auto !important;
+    width: 100% !important;
   }
-
+  
   .circle {
-    margin: 0 auto; /* عشان يبقى دايمًا في النص */
+    width: 180px !important;
+    height: 180px !important;
+    margin: 0 auto !important;
   }
-
+  
   .circle-logo {
-    display: block;
-    margin: 0 auto;
+    width: 140px !important;
+    height: 140px !important;
+    display: block !important;
+    margin: 0 auto !important;
   }
+  
+  .hero-title {
+    font-size: 1.3rem !important;
+    line-height: 1.3 !important;
+    text-align: center !important;
+  }
+  
+  .about-title, .learning-title, .contact-title {
+    font-size: 1.5rem !important;
+  }
+  
+  .about-description p {
+    font-size: 0.9rem !important;
+    padding: 0.5rem !important;
+  }
+}
 
+/* Small Devices (375px - 413px) */
+@media (min-width: 375px) and (max-width: 413px) {
+  html {
+    font-size: 15px;
+  }
+  
+  .header {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+  }
+  
+  .nav-container {
+    height: 55px;
+    min-height: 55px;
+  }
+  
+  .nav-logo .logo-img {
+    height: 35px;
+    width: 35px;
+  }
+  
+  .logo-text {
+    font-size: 1.3rem;
+  }
+  
+  .hero-container {
+    padding: 0 1.5rem;
+    min-height: calc(100vh - 55px);
+    margin-top: 55px;
+  }
+  
+  .hero-visual {
+    transform: none !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+  }
+  
+  .circle {
+    width: 200px !important;
+    height: 200px !important;
+    margin: 0 auto !important;
+  }
+  
+  .circle-logo {
+    width: 160px !important;
+    height: 160px !important;
+    display: block !important;
+    margin: 0 auto !important;
+  }
+  
+  .hero-title {
+    font-size: 1.5rem !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
+  }
+  
+  .about-title, .learning-title, .contact-title {
+    font-size: 1.7rem !important;
+  }
+}
+
+/* Medium Mobile Devices (414px - 767px) */
+@media (min-width: 414px) and (max-width: 767px) {
+  .header {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+  }
+  
+  .nav-container {
+    height: 60px;
+    min-height: 60px;
+    padding: 0 1rem;
+  }
+  
+  .hero-container {
+    padding: 0 2rem;
+    min-height: calc(100vh - 60px);
+    margin-top: 60px;
+  }
+  
+  .hero-visual {
+    transform: none !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+  }
+  
+  .circle {
+    width: 220px !important;
+    height: 220px !important;
+    margin: 0 auto !important;
+  }
+  
+  .circle-logo {
+    width: 180px !important;
+    height: 180px !important;
+    display: block !important;
+    margin: 0 auto !important;
+  }
+  
+  .hero-title {
+    font-size: 1.7rem !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
+  }
+  
+  .about-title, .learning-title, .contact-title {
+    font-size: 1.9rem !important;
+  }
+}
+
+/* Tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .header {
+    top: 15px;
+    left: 15px;
+    right: 15px;
+  }
+  
+  .nav-container {
+    height: 70px;
+    min-height: 70px;
+    padding: 0 1.5rem;
+  }
+  
+  .nav-logo .logo-img {
+    height: 45px;
+    width: 45px;
+  }
+  
+  .logo-text {
+    font-size: 1.7rem;
+  }
+  
+  .hero-container {
+    padding: 0 3rem;
+    min-height: calc(100vh - 70px);
+    margin-top: 70px;
+  }
+  
+  .circle {
+    width: 280px;
+    height: 280px;
+  }
+  
+  .circle-logo {
+    width: 240px;
+    height: 240px;
+  }
+  
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  
+  .about-title, .learning-title, .contact-title {
+    font-size: 2.3rem;
+  }
+}
+
+/* Large Tablets/Small Laptops (1024px and up) */
+@media (min-width: 1024px) {
+  .header {
+    top: 20px;
+    left: 20px;
+    right: 20px;
+  }
+  
+  .nav-container {
+    height: 80px;
+    min-height: 80px;
+    padding: 0 2rem;
+  }
+  
+  .nav-logo .logo-img {
+    height: 50px;
+    width: 50px;
+  }
+  
+  .logo-text {
+    font-size: 1.8rem;
+  }
+}
+
+/* Common Mobile Styles (All mobile devices) */
+@media (max-width: 767px) {
   /* Hide desktop navigation on mobile */
   .nav-menu {
-    display: none;
+    display: none !important;
   }
 
   .theme-toggle {
-    display: none;
+    display: none !important;
   }
 
   .nav-toggle {
+    display: flex !important;
+  }
+  
+  /* Ensure proper spacing and no overflow */
+  body {
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Make buttons and links touch-friendly */
+  .nav-toggle {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 8px;
+  }
+  
+  .sidebar-menu a {
+    min-height: 48px;
+    padding: 12px 1.5rem;
     display: flex;
+    align-items: center;
+  }
+  
+  .sidebar-theme-toggle {
+    min-height: 48px;
+    padding: 12px 1rem;
+  }
+  
+  /* Prevent horizontal scroll */
+  .hero-content {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  /* Improve glassmorphism performance on mobile */
+  .header {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  .mobile-sidebar {
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+  }
+  
+  /* Reduce animations on mobile for better performance */
+  .circle {
+    animation: none;
+  }
+  
+  .hero-visual img {
+    animation: none;
   }
 }
