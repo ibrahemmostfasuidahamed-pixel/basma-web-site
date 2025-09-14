@@ -366,30 +366,45 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 4000);
     }
 
-    // Initialize scroll animations and cards
-    animateOnScroll();
-    initializeCards();
-});
-
-// Card Expansion Animation
-function initializeCards() {
+    // Card expansion functionality
     const cards = document.querySelectorAll('.card');
     
     cards.forEach(card => {
-        card.addEventListener('click', () => {
-            // Close other cards first
-            cards.forEach(otherCard => {
-                if (otherCard !== card) {
-                    otherCard.classList.remove('expanded');
+        const toggleButton = card.querySelector('.card-toggle');
+        
+        if (toggleButton) {
+            toggleButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                // Toggle current card
+                card.classList.toggle('collapsed');
+                
+                // Update button text
+                const icon = this.querySelector('.toggle-icon');
+                if (card.classList.contains('collapsed')) {
+                    icon.textContent = '+';
+                    toggleButton.setAttribute('aria-label', 'عرض التفاصيل');
+                } else {
+                    icon.textContent = '−';
+                    toggleButton.setAttribute('aria-label', 'إخفاء التفاصيل');
                 }
             });
-            
-            // Toggle current card expansion
-            card.classList.toggle('expanded');
-        });
+        }
+        
+        // Also allow clicking on card header (but not the button) to toggle
+        const cardHeader = card.querySelector('.card-header');
+        if (cardHeader) {
+            cardHeader.addEventListener('click', function(e) {
+                if (!e.target.closest('.card-toggle')) {
+                    const toggleButton = card.querySelector('.card-toggle');
+                    if (toggleButton) {
+                        toggleButton.click();
+                    }
+                }
+            });
+        }
     });
-}
-
+});
 
 // Create floating particles
 function createParticles() {
