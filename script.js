@@ -171,6 +171,32 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileSidebar.style.willChange = 'auto';
     });
 
+    // Floating WhatsApp Button
+    const whatsappFloat = document.getElementById('whatsappFloat');
+    let lastScrollY = window.scrollY;
+    let ticking2 = false;
+
+    function updateWhatsAppButton() {
+        const currentScrollY = window.scrollY;
+        
+        // Show button after scrolling down 300px
+        if (currentScrollY > 300) {
+            whatsappFloat.classList.add('show');
+        } else {
+            whatsappFloat.classList.remove('show');
+        }
+        
+        lastScrollY = currentScrollY;
+        ticking2 = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking2) {
+            requestAnimationFrame(updateWhatsAppButton);
+            ticking2 = true;
+        }
+    }, { passive: true });
+
     // Add scroll event listener for header transparency (throttled)
     let ticking = false;
     function updateHeader() {
